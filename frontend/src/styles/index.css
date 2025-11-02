@@ -13,7 +13,7 @@ body {
   min-height: 100vh;
 }
 
-/* Эффект тетрадной страницы */
+/* Эффект тетрадной страницы в клеточку */
 .notebook-page {
   max-width: 100%;
   margin: 0 auto;
@@ -23,7 +23,7 @@ body {
   min-height: 100vh;
 }
 
-/* Горизонтальные линии тетради */
+/* Клеточки тетради (шахматная сетка) */
 .notebook-page::before {
   content: '';
   position: absolute;
@@ -32,14 +32,23 @@ body {
   right: 0;
   bottom: 0;
   background-image: 
+    /* Горизонтальные линии */
     repeating-linear-gradient(
       0deg,
       transparent,
-      transparent 35px,
-      #d4d4d4 35px,
-      #d4d4d4 36px
+      transparent 30px,
+      #e0e0e0 30px,
+      #e0e0e0 31px
+    ),
+    /* Вертикальные линии */
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 30px,
+      #e0e0e0 30px,
+      #e0e0e0 31px
     );
-  background-size: 100% 36px;
+  background-size: 100% 31px, 31px 100%;
   pointer-events: none;
   z-index: 0;
 }
@@ -154,14 +163,19 @@ body {
 .board {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  gap: 2px;
-  background: #333;
-  padding: 2px;
-  border: 3px solid #000;
-  border-radius: 5px;
-  margin: 10px 0;
-  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.3);
+  gap: 0;
+  background: #fff;
+  padding: 0;
+  border: 2px solid #333;
+  border-radius: 3px;
+  margin: 20px auto;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
   transform: rotate(-0.2deg);
+  width: fit-content;
+  position: relative;
+  z-index: 2;
+  /* Используем клеточки тетради как базовую сетку */
+  /* Каждая клетка = 30px (как в тетради) */
 }
 
 .board-row {
@@ -169,18 +183,23 @@ body {
 }
 
 .board-cell {
-  aspect-ratio: 1;
-  background: #e8f5e9;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  background: rgba(255, 255, 255, 0.9);
   border: 1px solid #999;
   cursor: pointer;
   position: relative;
   transition: all 0.2s;
+  /* Синхронизация с клеточками тетради */
+  box-sizing: border-box;
 }
 
 .board-cell:hover:not(.ship):not(.hit):not(.miss):not(.sunk) {
-  background: #c8e6c9;
-  transform: scale(1.1);
-  z-index: 2;
+  background: #e8f5e9;
+  border-color: #4CAF50;
+  z-index: 3;
 }
 
 .board-cell.ship {
@@ -252,6 +271,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  z-index: 2;
 }
 
 .board-label {
@@ -425,12 +446,11 @@ body {
     gap: 20px;
   }
 
-  .board {
-    gap: 1px;
-    padding: 1px;
-  }
-
   .board-cell {
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    min-height: 25px;
     font-size: 0.8em;
   }
 
@@ -441,13 +461,84 @@ body {
   .notebook-heading {
     font-size: 1.5em;
   }
+  
+  /* Уменьшаем размер клеточек на маленьких экранах */
+  .notebook-page::before {
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 25px,
+        #e0e0e0 25px,
+        #e0e0e0 26px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 25px,
+        #e0e0e0 25px,
+        #e0e0e0 26px
+      );
+    background-size: 100% 26px, 26px 100%;
+  }
 }
 
-/* Убираем линии тетради на маленьких экранах */
+@media (min-width: 769px) {
+  /* На больших экранах можно сделать еще больше */
+  .board-cell {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+    min-height: 35px;
+  }
+  
+  /* Увеличиваем клеточки тетради для больших экранов */
+  .notebook-page::before {
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 35px,
+        #e0e0e0 35px,
+        #e0e0e0 36px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 35px,
+        #e0e0e0 35px,
+        #e0e0e0 36px
+      );
+    background-size: 100% 36px, 36px 100%;
+  }
+}
+
+/* На очень маленьких экранах уменьшаем еще больше */
 @media (max-width: 480px) {
-  .notebook-page::before,
-  .notebook-page::after {
-    display: none;
+  .board-cell {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+  }
+  
+  .notebook-page::before {
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 20px,
+        #e0e0e0 20px,
+        #e0e0e0 21px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 20px,
+        #e0e0e0 20px,
+        #e0e0e0 21px
+      );
+    background-size: 100% 21px, 21px 100%;
   }
 }
 
