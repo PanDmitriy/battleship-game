@@ -1,9 +1,8 @@
-import { GameState, CellState } from '../../game/types';
+import { GameState } from '../../game/types';
 
 const BOARD_SIZE = 10;
 
 export class BotAI {
-  private lastHit: { row: number; col: number } | null = null;
   private hitQueue: { row: number; col: number }[] = [];
 
   makeMove(gameState: GameState, difficulty: 'easy' | 'medium' | 'hard'): { row: number; col: number } {
@@ -160,7 +159,6 @@ export class BotAI {
   }
 
   reset(): void {
-    this.lastHit = null;
     this.hitQueue = [];
   }
 }

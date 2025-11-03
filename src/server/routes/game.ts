@@ -10,7 +10,8 @@ router.post('/create', async (req, res) => {
     const { userId, botDifficulty = 'medium' } = req.body;
     
     if (!userId) {
-      return res.status(400).json({ error: 'userId обязателен' });
+      res.status(400).json({ error: 'userId обязателен' });
+      return;
     }
 
     const game = await gameService.createGame(userId, botDifficulty);
@@ -28,7 +29,8 @@ router.get('/active/:userId', async (req, res) => {
     const game = await gameService.getActiveGame(userId);
     
     if (!game) {
-      return res.status(404).json({ error: 'Активная игра не найдена' });
+      res.status(404).json({ error: 'Активная игра не найдена' });
+      return;
     }
 
     res.json(game);
@@ -45,7 +47,8 @@ router.get('/:gameId', async (req, res) => {
     const game = await gameService.getGame(parseInt(gameId));
     
     if (!game) {
-      return res.status(404).json({ error: 'Игра не найдена' });
+      res.status(404).json({ error: 'Игра не найдена' });
+      return;
     }
 
     res.json(game);
@@ -62,7 +65,8 @@ router.post('/:gameId/ships', async (req, res) => {
     const { ships } = req.body;
 
     if (!ships || !Array.isArray(ships)) {
-      return res.status(400).json({ error: 'ships должен быть массивом' });
+      res.status(400).json({ error: 'ships должен быть массивом' });
+      return;
     }
 
     const game = await gameService.placeShips(parseInt(gameId), ships);
@@ -80,7 +84,8 @@ router.post('/:gameId/move', async (req, res) => {
     const { row, col } = req.body;
 
     if (typeof row !== 'number' || typeof col !== 'number') {
-      return res.status(400).json({ error: 'row и col должны быть числами' });
+      res.status(400).json({ error: 'row и col должны быть числами' });
+      return;
     }
 
     const result = await gameService.makeMove(parseInt(gameId), row, col);

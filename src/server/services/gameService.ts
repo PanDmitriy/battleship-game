@@ -1,5 +1,5 @@
-import { Game, GameState, MoveResult, Ship, CellState } from '../../game/types';
-import { getQuery, runQuery, allQuery } from '../db';
+import { Game, GameState, MoveResult, Ship } from '../../game/types';
+import { getQuery, runQuery } from '../db';
 import { createEmptyBoard, generateRandomShips, placeShipOnBoard, validateShipPlacement } from '../../game/board';
 import { BotAI } from './botAI';
 

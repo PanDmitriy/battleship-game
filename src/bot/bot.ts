@@ -1,4 +1,4 @@
-import { Bot, webhookCallback } from 'grammy';
+import { Bot } from 'grammy';
 import { config } from 'dotenv';
 
 config();
@@ -95,10 +95,15 @@ bot.on('message', async (ctx) => {
 });
 
 // Обработчик ошибок
-bot.catch = (err) => {
+bot.catch((err) => {
   const ctx = err.ctx;
   console.error(`Ошибка при обработке обновления ${ctx.update.update_id}:`);
   const e = err.error;
+  
+  if (!e) {
+    console.error('Ошибка: неизвестная ошибка (null)');
+    return;
+  }
   
   if (e instanceof Error) {
     console.error('Ошибка:', e.message);
@@ -107,7 +112,7 @@ bot.catch = (err) => {
   } else {
     console.error('Неизвестная ошибка:', e);
   }
-};
+});
 
 export async function setupBot() {
   // Проверка токена
