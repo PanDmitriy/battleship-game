@@ -1,0 +1,27 @@
+# Пример конфигурационного файла для Cloudflare Tunnel
+# Скопируйте этот файл в ~/.cloudflared/config.yml
+# И замените значения на свои
+
+# ID туннеля (получите через: cloudflared tunnel list)
+tunnel: YOUR_TUNNEL_ID
+
+# Путь к файлу с учетными данными (создается автоматически)
+credentials-file: /home/YOUR_USERNAME/.cloudflared/YOUR_TUNNEL_ID.json
+
+ingress:
+  # Основной домен для frontend WebApp
+  # Используйте ваш домен или бесплатный от Cloudflare Workers
+  - hostname: your-domain.workers.dev
+    service: http://localhost:5173  # Frontend порт (dev режим)
+  
+  # API endpoint (опционально, если хотите отдельный поддомен)
+  - hostname: api.your-domain.workers.dev
+    service: http://localhost:3000  # Backend порт
+  
+  # Для продакшена (когда frontend собран):
+  # - hostname: your-domain.workers.dev
+  #   service: http://localhost:3000  # Backend раздает статику
+  
+  # Fallback - должен быть последним
+  - service: http_status:404
+

@@ -1,13 +1,41 @@
+# Dependencies
 node_modules/
+frontend/node_modules/
+
+# Build outputs
 dist/
-*.log
-logs/
+frontend/dist/
+
+# Environment variables
 .env
 .env.local
 .env.production
-.DS_Store
-frontend/dist/
-frontend/node_modules/
+.env.*.local
+
+# Database
 *.db
 *.sqlite
+*.sqlite3
 
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Cloudflare Tunnel
+.cloudflared/
+*.tunnel.pid
+.tunnel.pid
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

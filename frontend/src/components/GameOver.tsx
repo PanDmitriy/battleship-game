@@ -30,3 +30,4 @@ export function GameOver({ game, onNewGame }: GameOverProps) {
   );
 }
 
+
